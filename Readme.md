@@ -22,6 +22,10 @@ Architecture:
     │
     └── Chess.Console     ← PC version (optional)
     
+chess.py 
+
+chess.html
+
 Features included:
 
 Full chess rules — legal move validation, check detection, checkmate & stalemate
