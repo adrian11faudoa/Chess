@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; script-src 'unsafe-inline'; img-src 'self';">
 <title>Chess</title>
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -100,7 +101,7 @@ button:hover { background: #333; }
   <div id="result-box">
     <div id="result-title"></div>
     <div id="result-sub"></div>
-    <button onclick="newGame()">Play again</button>
+    <button id="btn-play-again">Play again</button>
   </div>
 </div>
 
@@ -264,7 +265,8 @@ function toAN(fr,fc,tr,tc,capture) {
 function renderCoords() {
   const rankEl = document.getElementById('rank-coords');
   const fileEl = document.getElementById('file-coords');
-  rankEl.innerHTML=''; fileEl.innerHTML='';
+  while(rankEl.firstChild) rankEl.removeChild(rankEl.firstChild);
+  while(fileEl.firstChild) fileEl.removeChild(fileEl.firstChild);
   for(let i=0;i<8;i++){
     const rv = document.createElement('div');
     rv.className='coord'; rv.textContent=String(flipped?i+1:8-i);
@@ -279,7 +281,7 @@ function renderCoords() {
 
 function renderBoard() {
   const boardEl = document.getElementById('board');
-  boardEl.innerHTML='';
+  while(boardEl.firstChild) boardEl.removeChild(boardEl.firstChild);
   for(let ri=0;ri<8;ri++){
     for(let ci=0;ci<8;ci++){
       const r = flipped?7-ri:ri, c = flipped?7-ci:ci;
@@ -390,7 +392,7 @@ function showPromo(col){
   const proms=['Q','R','B','N'];
   const display={'Q':'♕♛','R':'♖♜','B':'♗♝','N':'♘♞'};
   const choices=document.getElementById('promo-choices');
-  choices.innerHTML='';
+  while(choices.firstChild) choices.removeChild(choices.firstChild);
   const idx=col==='w'?0:1;
   proms.forEach(t=>{
     const btn=document.createElement('button');
@@ -420,8 +422,9 @@ function checkGameOver(){
   }
 }
 
-document.getElementById('btn-new').onclick=newGame;
-document.getElementById('btn-flip').onclick=()=>{flipped=!flipped;selected=null;validMoves=[];renderAll();};
+document.getElementById('btn-new').addEventListener('click', newGame);
+document.getElementById('btn-flip').addEventListener('click', ()=>{flipped=!flipped;selected=null;validMoves=[];renderAll();});
+document.getElementById('btn-play-again').addEventListener('click', newGame);
 
 newGame();
 </script>

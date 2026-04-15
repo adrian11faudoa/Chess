@@ -1,4 +1,3 @@
-import os
 import sys
 
 # Unicode chess pieces
@@ -22,7 +21,7 @@ def initial_board():
 def print_board(board, selected=None, valid_moves=None):
     if valid_moves is None:
         valid_moves = []
-    os.system('cls' if os.name == 'nt' else 'clear')
+    print('\033[2J\033[H', end='', flush=True)
     print("\n  ╔════════════════════════╗")
     print("  ║     PYTHON  CHESS      ║")
     print("  ╚════════════════════════╝\n")
@@ -55,6 +54,8 @@ def print_board(board, selected=None, valid_moves=None):
 def parse_pos(s):
     s = s.strip().lower()
     if len(s) != 2:
+        return None
+    if not s[1].isdigit():
         return None
     col = ord(s[0]) - ord('a')
     row = 8 - int(s[1])
